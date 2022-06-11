@@ -1,0 +1,10 @@
+.elements {
+  margin: 0;
+  padding: 0;
+  padding-top: 51px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(282px, 1fr));
+  grid-template-rows: repeat(3, 361px);
+  gap: 20px 17px;
+}

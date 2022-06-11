@@ -1,0 +1,16 @@
+.profile__name {
+  margin: 0;
+  padding: 0;
+  max-width: 294px;
+  color: white;
+  grid-area: profile-name;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1.14;
+  margin-bottom: -8px;
+  /* не переносить, скрывать выходящее за рамки, ставить три точки */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
