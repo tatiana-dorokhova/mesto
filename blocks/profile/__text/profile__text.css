@@ -1,0 +1,15 @@
+.profile__text {
+  margin: 0;
+  padding: 0;
+  max-width: 336px;
+  color: white;
+  grid-area: profile-text;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  /* не переносить, скрывать выходящее за рамки, ставить три точки */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

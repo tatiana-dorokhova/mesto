@@ -1,0 +1,13 @@
+.profile__add-button {
+margin: 0;
+padding: 0;
+width: 100%;
+min-height: 50px;
+border: none;
+grid-area: add-button;
+background-image: url('../../../images/profile/profile-add-button.png');
+background-size: cover;
+background-color: black;
+align-self: center;
+border-radius: 2px;
+}
