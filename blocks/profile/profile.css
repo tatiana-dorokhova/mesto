@@ -1,4 +1,5 @@
 .profile {
+  margin: 0 auto;
   width: 100%;
   max-width: 880px;
   display: grid;
@@ -7,4 +8,17 @@
   grid-template-areas:
   "avatar profile-info add-button";
   padding-top: 40px;
+}
+
+@media screen and (min-width: 486px) and (max-width: 768px) {
+  .profile {
+    max-width: 500px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, min-content);
+    grid-template-areas:
+    "avatar profile-info"
+    "add-button add-button";
+    justify-items: center;
+    row-gap: 26px;
+  }
 }
