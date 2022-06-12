@@ -34,7 +34,8 @@
         <!-- Алтай -->
         <article class="element">
           <!-- картинка -->
-          <img class="element__image" src="./images/elements/elements-altay.jpg" alt="Место слиянии рек Катуни и Бии на Алтае.">
+          <img class="element__image" src="./images/elements/elements-altay.jpg"
+            alt="Место слиянии рек Катуни и Бии на Алтае.">
           <!-- подпись к картинке -->
           <div class="element__info">
             <!-- название -->
@@ -45,7 +46,8 @@
         </article>
         <!-- Элиста -->
         <article class="element">
-          <img class="element__image" src="./images/elements/elements-elista.jpg" alt="Золотая обитель Будды Шакьямуни в Элисте.">
+          <img class="element__image" src="./images/elements/elements-elista.jpg"
+            alt="Золотая обитель Будды Шакьямуни в Элисте.">
           <div class="element__info">
             <h2 class="element__name">Элиста</h2>
             <div class="element__like"></div>
@@ -53,7 +55,8 @@
         </article>
         <!-- Домбай -->
         <article class="element">
-          <img class="element__image" src="./images/elements/elements-dombay.jpg" alt="Вид на поселок Домбай с горной вершины.">
+          <img class="element__image" src="./images/elements/elements-dombay.jpg"
+            alt="Вид на поселок Домбай с горной вершины.">
           <div class="element__info">
             <h2 class="element__name">Домбай</h2>
             <div class="element__like"></div>
@@ -61,7 +64,8 @@
         </article>
         <!-- Сочи-->
         <article class="element">
-          <img class="element__image" src="./images/elements/elements-krasnaya-polyana.jpg" alt="Канатная дорога в Красной Поляне.">
+          <img class="element__image" src="./images/elements/elements-krasnaya-polyana.jpg"
+            alt="Канатная дорога в Красной Поляне.">
           <div class="element__info">
             <h2 class="element__name">Красная Поляна</h2>
             <div class="element__like"></div>
@@ -77,7 +81,8 @@
         </article>
         <!-- Кисловодск -->
         <article class="element">
-          <img class="element__image" src="./images/elements/elements-kislovodsk.jpg" alt="Долина роз в парке Кисловодска.">
+          <img class="element__image" src="./images/elements/elements-kislovodsk.jpg"
+            alt="Долина роз в парке Кисловодска.">
           <div class="element__info">
             <h2 class="element__name">Кисловодск</h2>
             <div class="element__like"></div>
@@ -89,7 +94,18 @@
       <p class="footer__text">© 2022 Mesto Russia</p>
     </footer>
   </div>
-
+  <div class="popup content">
+    <div class="popup__container section">
+      <button class="popup__close-button"></button>
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form class="popup__form" action="#">
+        <input class="popup__input" type="text" name="Имя" autocorrect="off" autocapitalize="none" placeholder="Имя">
+        <input class="popup__input" type="text" name="Род занятий" autocorrect="off" autocapitalize="none"
+          placeholder="Род занятий">
+        <button class="popup__submit-button" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
 </body>
 
 </html>
