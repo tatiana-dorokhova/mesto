@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   width: 100%;
+  max-width: 336px;
   display: grid;
   grid-template-columns: max-content 24px ;
   grid-template-rows: repeat(2, max-content);
@@ -12,4 +13,15 @@
   "profile-name profile-edit-button"
   "profile-text profile-text";
   padding-top: 22px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 704px) {
+  .profile__info {
+  max-width: 282px;
+  width: auto;
+  padding-top: 0;
+  row-gap: 14px;
+  column-gap: 10px;
+  }
 }

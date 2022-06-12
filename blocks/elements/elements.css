@@ -8,3 +8,11 @@
   justify-items: center;
   gap: 20px 17px;
 }
+
+@media screen and (max-width: 918px) {
+  .elements {
+    padding-left: 19px;
+    padding-right: 19px;
+    padding-top: 36px;
+  }
+}
