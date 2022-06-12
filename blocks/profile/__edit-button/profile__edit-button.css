@@ -6,6 +6,17 @@
   border: none;
   grid-area: profile-edit-button;
   background-image: url('../../../images/profile/profile-edit-button.svg');
-  background-size: cover;
+  background-size: 10px;
+  background-position: center;
   background-color: black;
+  background-repeat: no-repeat;
+  border: 1px solid #FFFFFF;
+}
+
+@media screen and (max-width: 704px) {
+  .profile__edit-button {
+    max-width: 18px;
+    min-height: 18px;
+    background-size: 7.5px;
+  }
 }

@@ -1,6 +1,7 @@
 .element__info {
   margin: 0;
   width: 100%;
+  max-width: 282px;
   min-height: 79px;
   display: flex;
   justify-content: space-between;
@@ -8,6 +9,5 @@
   box-sizing: border-box;
   padding: 0 21px;
   align-items: center;
-  background: #FFFFFF;
   border-radius: 0px 0px 10px 10px;
 }
