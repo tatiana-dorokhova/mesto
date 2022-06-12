@@ -14,3 +14,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media screen and (max-width: 704px) {
+  .profile__name {
+    font-size: 27px;
+    line-height: 33px;
+    text-align: center;
+    margin-bottom: -6px;
+    margin-left: 33px;
+  }
+}
