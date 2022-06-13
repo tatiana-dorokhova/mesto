@@ -47,16 +47,24 @@ function closePopupOnEscape(event) {
   };
 }
 
+// функция закрытия попапа по Enter с сохранением данных
+function closePopupOnEnter(event) {
+  if (event.key === 'Enter') {
+    formSubmitHandler(event);
+  };
+}
+
 function openPopup() {
   popup.classList.add('popup_opened');
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
   document.addEventListener('keyup', closePopupOnEscape); // обработчик нажатия Escape
+  document.addEventListener('keyup', closePopupOnEnter); // обработчик нажатия Enter
 };
 
 function closePopup() {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keyup', closePopupOnEscape);
+  document.removeEventListener('keyup', closePopupOnEnter);
+
 };
-
-
