@@ -10,18 +10,18 @@
   column-gap: 18px;
   row-gap: 16px;
   grid-template-areas:
-  "profile-name profile-edit-button"
-  "profile-text profile-text";
+    "profile-name profile-edit-button"
+    "profile-text profile-text";
   padding-top: 22px;
   box-sizing: border-box;
 }
 
 @media screen and (max-width: 704px) {
   .profile__info {
-  max-width: 282px;
-  width: auto;
-  padding-top: 0;
-  row-gap: 14px;
-  column-gap: 10px;
+    max-width: 282px;
+    width: auto;
+    padding-top: 0;
+    row-gap: 14px;
+    column-gap: 10px;
   }
 }
