@@ -12,6 +12,7 @@
   color: white;
   border: none;
   border-radius: 2px;
+  transition: opacity 0.3s ease-out;
 }
 
 .popup__submit-button:hover {

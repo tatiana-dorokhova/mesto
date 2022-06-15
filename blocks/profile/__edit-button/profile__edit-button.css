@@ -10,6 +10,8 @@
   background-color: black;
   background-repeat: no-repeat;
   border: 1px solid #FFFFFF;
+  margin-bottom: 8px;
+  transition: opacity 0.3s ease-out;
 }
 
 .profile__edit-button:hover {

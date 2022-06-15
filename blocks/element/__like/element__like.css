@@ -8,6 +8,7 @@
   background-color: white;
   margin-left: 20px;
   border: none;
+  transition: opacity 0.3s ease-out;
 }
 
 .element__like:hover {
