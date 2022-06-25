@@ -41,18 +41,49 @@ const popup = document.querySelector('.popup');
 const profileName = document.querySelector('.profile__name');
 // поле информации профиля (profile__text)
 const profileText = document.querySelector('.profile__text');
+// кнопка лайка в карточке
+const likeButton = document.querySelector('.element__like');
 
 
+function deleteCard(evt) {
+// удаляем ближайший от кнопки удаления элемент с классом element
+  const cardListItem = evt.currentTarget.closest('.element');
+  cardListItem.remove();
+}
 
+function likeCard(evt) {
+  evt.target.classList.toggle('element__like_marked');
+}
 
 // функция генерации одной карточки
+// (в evt.target хранится элемент, на котором сработало событие)
 function renderCard(cards) {
   // клонируем шаблон
   const newCard = cardTemplate.cloneNode(true);
   // меняем нужные параметры
   newCard.querySelector('.element__name').innerText = cards.name;
   newCard.querySelector('.element__image').src = cards.link;
-  console.log(newCard);
+  // обработчик клика на картинку, по которому появляется поп-ап с картинкой на весь экран
+  newCard.querySelector('.element__image').addEventListener('click', function(evt) {
+    // если клик именно на картинке, то показать поп-ап с картинкой
+    if (evt.target === evt.currentTarget) {
+      openPopupWithImage();
+    }
+  });
+  // обработчик кнопки удаления карточки
+  newCard.querySelector('.element__delete').addEventListener('click', function(evt) {
+    // если клик именно на кнопке удаления, то удалить эту карточку
+    if (evt.target === evt.currentTarget) {
+      deleteCard(evt);
+    }
+  });
+  // обработчик лайка в карточке
+  newCard.querySelector('.element__like').addEventListener('click', function(evt) {
+    if (evt.target === evt.currentTarget) {
+      likeCard(evt);
+    }
+  });
+
   cardList.append(newCard);
 };
 
@@ -65,6 +96,18 @@ let formElement = document.querySelector('.popup__form');
 // поля формы в DOM
 let nameInput = document.querySelector("input[name=popup-name]");
 let jobInput = document.querySelector("input[name=popup-job]");
+
+// обработчик события нажатия кнопки добавления
+// addCardButton.addEventListener('click', function () {
+//   const artist = document.querySelector('.input__text_type_artist');
+//   const title = document.querySelector('.input__text_type_title');
+
+//   addSong(artist.value, title.value);
+//   renderHasSongs();
+
+//   artist.value = '';
+//   title.value = '';
+// });
 
 // обработчик события нажатия кнопки редактирования
 profileEditButton.addEventListener('click', openPopup);
