@@ -7,4 +7,10 @@
   top: 20px;
   right: 20px;
   border: none;
+  transition: opacity 0.3s ease-out;
+}
+
+.element__delete:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
