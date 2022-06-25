@@ -1,0 +1,10 @@
+.element__delete {
+  min-width: 18px;
+  min-height: 19px;
+  background-image: url(../../../images/elements/element-delete-button.svg);
+  background-color: transparent;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: none;
+}
