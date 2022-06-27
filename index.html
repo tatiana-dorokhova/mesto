@@ -42,36 +42,34 @@
   <!-- Поп-ап для редактирования профиля -->
   <div class="popup popup-edit">
     <div class="popup__container section">
-      <button class="popup__close-button popup-edit" type="button"></button>
+      <button class="popup__close-button" type="button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form" name="profile-edit-form" action="#">
         <input class="popup__input" type="text" name="popup-profile-name" placeholder="Имя">
         <input class="popup__input" type="text" name="popup-profile-job" placeholder="Род занятий">
-        <button class="popup__submit-button popup-edit" type="submit">Сохранить</button>
+        <button class="popup__submit-button" type="submit">Сохранить</button>
       </form>
     </div>
   </div>
   <!-- Поп-ап для добавления новой карточки -->
   <div class="popup popup-add">
     <div class="popup__container section">
-      <button class="popup__close-button popup-add" type="button"></button>
+      <button class="popup__close-button" type="button"></button>
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form" name="new-card-form" action="#">
         <input class="popup__input" type="text" name="popup-new-card-name" placeholder="Название">
         <input class="popup__input" type="text" name="popup-new-card-link" placeholder="Ссылка на картинку">
-        <button class="popup__submit-button popup-add" type="submit">Создать</button>
+        <button class="popup__submit-button" type="submit">Создать</button>
       </form>
     </div>
   </div>
   <!-- Поп-ап для открытия изображения из карточки на весь экран-->
-  <div class="popup popup-image">
-    <div class="popup__container section">
-      <button class="popup__close-button popup-image" type="button"></button>
-      <figure>
-        <img src="" alt="Картинка по умолчанию">
-        <figcaption></figcaption>
-      </figure>
-    </div>
+  <div class="popup popup-image popup_bkg-opacity">
+    <figure class="popup__figure">
+      <button class="popup__close-button" type="button"></button>
+      <img class="popup__image" src="#" alt="#">
+      <figcaption class="popup__caption"></figcaption>
+    </figure>
   </div>
 
   <!-- Шаблон для карточки -->

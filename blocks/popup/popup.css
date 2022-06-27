@@ -1,16 +1,16 @@
 .popup {
+  /* плавное открытие и закрытие всех попапов */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity .5s linear;
   position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
   height: 100vh;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
-  /* плавное открытие и закрытие всех попапов */
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s linear, opacity 100s linear;
 }
