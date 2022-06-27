@@ -84,31 +84,33 @@ function renderCard(card) {
   // клонируем шаблон
   const newCard = cardTemplate.cloneNode(true);
   // меняем нужные параметры
-  newCard.querySelector('.element__name').innerText = card.name;
-  newCard.querySelector('.element__image').src = card.link;
+  const newCardName = newCard.querySelector('.element__name');
+  const newCardImage = newCard.querySelector('.element__image');
+  newCardName.innerText = card.name;
+  newCardImage.src = card.link;
   // обработчик клика на картинку, по которому появляется поп-ап с картинкой на весь экран
-  newCard.querySelector('.element__image').addEventListener('click', function (event) {
+  newCardImage.addEventListener('click', function (event) {
     // если клик именно на картинке, то показать поп-ап с картинкой
     if (event.target === event.currentTarget) {
-      console.log(card);
       openImagePopup(card);
     }
   });
   // обработчик кнопки удаления карточки
-  newCard.querySelector('.element__delete').addEventListener('click', function (event) {
+  const newCardDelete = newCard.querySelector('.element__delete');
+  newCardDelete.addEventListener('click', function (event) {
     // если клик именно на кнопке удаления, то удалить эту карточку
     if (event.target === event.currentTarget) {
       deleteCard(event);
     }
   });
   // обработчик лайка в карточке
-  newCard.querySelector('.element__like').addEventListener('click', function (event) {
+  const newCardLike = newCard.querySelector('.element__like');
+  newCardLike.addEventListener('click', function (event) {
     if (event.target === event.currentTarget) {
       likeCard(event);
     }
   });
 
-  console.log(newCard);
   return newCard;
 };
 
