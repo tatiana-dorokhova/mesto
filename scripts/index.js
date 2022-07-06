@@ -138,7 +138,8 @@ popups.forEach((popup) => {
       closePopup(popup)
     }
   })
-})
+});
+
 
 // обработчики нажатия кнопок
 profileEditButton.addEventListener('click', openEditProfilePopup);
@@ -148,18 +149,28 @@ buttonAddCard.addEventListener('click', openNewCardPopup);
 profileEditForm.addEventListener('submit', handleProfileFormSubmit);
 newCardForm.addEventListener('submit', handleNewCardFormSubmit);
 
+// закрытие попапа по Esc (листнер навешивать на документ)
+function closePopupOnEscape(event) {
+  const key = event.key;
+  if (key === 'Escape') {
+    const popupToClose = document.querySelector('.popup_opened');
+    closePopup(popupToClose);
+  };
+};
 
 // открытие любого попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupOnEscape);
 };
 
 // закрытие любого попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupOnEscape);
 };
 
-// // закрытие ближайшего попапа
+// // закрытие ближайшего открытого попапа
 // function hideClosestPopup(event) {
 //   const closestPopup = event.target.closest('.popup');
 //   closePopup(closestPopup)
