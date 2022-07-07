@@ -68,7 +68,7 @@ const popupCaption = imagePopup.querySelector('.popup__caption');
 function deleteCard(event) {
   // удаляем ближайший от кнопки удаления элемент с классом element
   // обработчик события клика по картинке удаляется вместе с элементом автоматически
-  const cardListItem = event.currentTarget.closest('.element');
+  const cardListItem = event.target.closest('.element');
   cardListItem.remove();
 }
 
@@ -87,28 +87,6 @@ function renderCard(card) {
   newCardName.innerText = card.name;
   newCardImage.src = card.link;
   newCardImage.alt = card.name;
-  // обработчик клика на картинку, по которому появляется поп-ап с картинкой на весь экран
-  newCardImage.addEventListener('click', function (event) {
-    // если клик именно на картинке, то показать поп-ап с картинкой
-    if (event.target === event.currentTarget) {
-      openImagePopup(card);
-    }
-  });
-  // обработчик кнопки удаления карточки
-  const newCardDelete = newCard.querySelector('.element__delete');
-  newCardDelete.addEventListener('click', function (event) {
-    // если клик именно на кнопке удаления, то удалить эту карточку
-    if (event.target === event.currentTarget) {
-      deleteCard(event);
-    }
-  });
-  // обработчик лайка в карточке
-  const newCardLike = newCard.querySelector('.element__like');
-  newCardLike.addEventListener('click', function (event) {
-    if (event.target === event.currentTarget) {
-      likeCard(event);
-    }
-  });
 
   return newCard;
 };
@@ -122,6 +100,37 @@ function addCardInList(card) {
 // генерация карточек при загрузке страницы
 initialCards.forEach(addCardInList);
 
+// обработчик лайка в любой карточке
+cardList.addEventListener('click', function (event) {
+  // если нажали на «Лайк», то поставить лайк
+  if (event.target.classList.contains('element__like')) {
+    likeCard(event);
+  }
+  // иначе событие сработало на другом элементе и ничего делать не нужно
+});
+
+// обработчик кнопки удаления любой карточки
+cardList.addEventListener('click', function (event) {
+  // если нажали на «Удалить», то удалить ближайшую карточку
+  if (event.target.classList.contains('element__delete')) {
+    deleteCard(event);
+  }
+  // иначе событие сработало на другом элементе и ничего делать не нужно
+});
+
+// обработчик нажатия на картинку в любой карточке
+cardList.addEventListener('click', function (event) {
+  // если нажали картинку в карточке, то открыть ее на весь экран
+  if (event.target.classList.contains('element__image')) {
+    const card = {
+      //т.к. alt и name в функции генерации карточки одинаковые, то можно взять alt вместо того, чтобы искать name
+      name: event.target.alt,
+      link: event.target.src
+    };
+    openImagePopup(card);
+  }
+  // иначе событие сработало на другом элементе и ничего делать не нужно
+});
 
 //--------------------------------------------Поп-апы-----------------------
 
