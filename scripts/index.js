@@ -63,6 +63,16 @@ const newCardLinkInput = document.querySelector("input[name=popup-new-card-link]
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
 
+// список селекторов для вызова валидации
+const params = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
 //--------------------------------------------Карточки-----------------------
 
 function deleteCard(event) {
@@ -227,3 +237,6 @@ function openImagePopup(card) {
   popupImage.alt = card.name;
   popupCaption.innerText = card.name;
 };
+
+// добавление валидации на все формы
+enableValidation(params);
