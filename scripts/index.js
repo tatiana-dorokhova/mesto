@@ -63,6 +63,16 @@ const newCardLinkInput = document.querySelector("input[name=popup-new-card-link]
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
 
+// список селекторов для вызова валидации
+const params = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
 //--------------------------------------------Карточки-----------------------
 
 function deleteCard(event) {
@@ -190,6 +200,8 @@ function openEditProfilePopup() {
   openPopup(profilePopup);
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileText.textContent;
+  toggleSubmitButtonOnOpeningPopup(profilePopup, params);
+  hideInputErrorOnOpeningPopup(profilePopup, params);
 };
 
 // функция сохранения введенных данных и закрытия попапа редактирования профиля
@@ -205,6 +217,7 @@ function handleProfileFormSubmit(event) {
 // открытие попапа добавления карточки и навешивание листнера
 function openNewCardPopup() {
   openPopup(newCardPopup);
+  toggleSubmitButtonOnOpeningPopup(newCardPopup, params);
 };
 
 // функция сохранения введенных данных и закрытия попапа добавления карточки
@@ -227,3 +240,6 @@ function openImagePopup(card) {
   popupImage.alt = card.name;
   popupCaption.innerText = card.name;
 };
+
+// добавление валидации на все формы
+enableValidation(params);
