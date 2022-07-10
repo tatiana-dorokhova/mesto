@@ -23,6 +23,7 @@ const hideInputError = (formElement, inputElement, params) => {
   errorElement.textContent = '';
 };
 
+// проверяет валидность одного инпута
 const checkInputValidity = (formElement, inputElement) => {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, params);
@@ -30,25 +31,24 @@ const checkInputValidity = (formElement, inputElement) => {
     hideInputError(formElement, inputElement, params);
   }
 };
-
+// проверка, есть ли хотя бы один невалидный инпут из списка
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 };
-
+// переключение состояния кнопки сабмита
 const toggleButtonState = (inputList, buttonElement, params) => {
   // дизэйблить кнопку сохранения, если есть невалидные поля
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(params.inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);
-  }
-  else {
+  } else {
     buttonElement.classList.remove(params.inactiveButtonClass);
     buttonElement.removeAttribute('disabled', false);
   }
 };
-
+// навешивание листнеров на все инпуты
 const setEventListeners = (formElement, params) => {
   // найти все инпуты на форме, переданной в formElement
   const inputList = Array.from(formElement.querySelectorAll(params.inputSelector));
@@ -60,16 +60,29 @@ const setEventListeners = (formElement, params) => {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
-      console.log(checkInputValidity(formElement, inputElement));
       toggleButtonState(inputList, buttonElement, params);
     });
   });
 };
 
+// переключение состояни кнопки сабмита при открытии попапа
+const toggleSubmitButtonOnOpeningPopup = (popup, params) => {
+  // найти все инпуты в переданном popup
+  const inputList = Array.from(popup.querySelectorAll(params.inputSelector));
+  // найти кнопку сабмита на этой форме
+  const buttonElement = popup.querySelector(params.submitButtonSelector);
+  // сделать кнопку сохранения неактивной, если поля невалидные
+  toggleButtonState(inputList, buttonElement, params);
+};
 
+// очистка сообщения об ошибках при открытии попапа
+const hideInputErrorOnOpeningPopup = (popup, params) => {
+  const inputList = Array.from(popup.querySelectorAll(params.inputSelector));
+  // для всех инпутов очистить ошибки
+  inputList.forEach((inputElement) => hideInputError(popup, inputElement, params));
+};
 
-
-
+// включение валидации
 const enableValidation = (params) => {
   // найти все формы на странице
   const formList = Array.from(document.querySelectorAll(params.formSelector));
@@ -78,7 +91,7 @@ const enableValidation = (params) => {
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
-  // повесить листнеры на все инпуты в
+    // повесить листнеры на все инпуты во всех формах на странице
     formList.forEach((formElement) => {
       setEventListeners(formElement, params);
     });

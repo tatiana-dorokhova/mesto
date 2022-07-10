@@ -45,14 +45,14 @@
       <button class="popup__close-button" type="button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form" name="profile-edit-form" action="#" novalidate>
-          <input class="popup__input" type="text" name="popup-profile-name" placeholder="Имя" minlength="2"
-            maxlength="40" required>
-          <!-- класс popup-profile-name-error здесь нужен только для обнаружения элемента джаваскриптом -->
-          <span class="popup__error popup-profile-name-error">ошибка имени профиля</span>
-          <input class="popup__input" type="text" name="popup-profile-job" placeholder="Род занятий" minlength="2"
-            maxlength="200" required>
-          <span class="popup__error popup-profile-job-error">ошибка в описании профиля</span>
-          <button class="popup__submit-button" type="submit">Сохранить</button>
+        <input class="popup__input" type="text" name="popup-profile-name" placeholder="Имя" minlength="2" maxlength="40"
+          required>
+        <!-- класс popup-profile-name-error здесь нужен только для обнаружения элемента джаваскриптом -->
+        <span class="popup__error popup-profile-name-error"></span>
+        <input class="popup__input" type="text" name="popup-profile-job" placeholder="Род занятий" minlength="2"
+          maxlength="200" required>
+        <span class="popup__error popup-profile-job-error"></span>
+        <button class="popup__submit-button" type="submit">Сохранить</button>
       </form>
     </div>
   </div>
@@ -62,12 +62,12 @@
       <button class="popup__close-button" type="button"></button>
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form" name="new-card-form" action="#" novalidate>
-          <input class="popup__input" type="text" name="popup-new-card-name" placeholder="Название" minlength="2"
-            maxlength="30" required>
-          <span class="popup__error popup-new-card-name-error">ошибка названия карточки</span>
-          <input class="popup__input" type="email" name="popup-new-card-link" placeholder="Ссылка на картинку" required>
-          <span class="popup__error popup-new-card-link-error">ошибка линка карточки</span>
-          <button class="popup__submit-button" type="submit">Создать</button>
+        <input class="popup__input" type="text" name="popup-new-card-name" placeholder="Название" minlength="2"
+          maxlength="30" required>
+        <span class="popup__error popup-new-card-name-error"></span>
+        <input class="popup__input" type="url" name="popup-new-card-link" placeholder="Ссылка на картинку" required>
+        <span class="popup__error popup-new-card-link-error"></span>
+        <button class="popup__submit-button" type="submit">Создать</button>
       </form>
     </div>
   </div>

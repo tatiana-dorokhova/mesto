@@ -200,6 +200,8 @@ function openEditProfilePopup() {
   openPopup(profilePopup);
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileText.textContent;
+  toggleSubmitButtonOnOpeningPopup(profilePopup, params);
+  hideInputErrorOnOpeningPopup(profilePopup, params);
 };
 
 // функция сохранения введенных данных и закрытия попапа редактирования профиля
@@ -215,6 +217,7 @@ function handleProfileFormSubmit(event) {
 // открытие попапа добавления карточки и навешивание листнера
 function openNewCardPopup() {
   openPopup(newCardPopup);
+  toggleSubmitButtonOnOpeningPopup(newCardPopup, params);
 };
 
 // функция сохранения введенных данных и закрытия попапа добавления карточки
