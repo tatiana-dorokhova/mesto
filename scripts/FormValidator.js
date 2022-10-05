@@ -1,9 +1,17 @@
 // включение валидации вызовом enableValidation
 // все настройки передаются при вызове
 
+export default class FormValidator {
+  constructor (params, formElement) {
+  this._params = params;
+  this._formElement = formElement;
+
+
+
+  }
 
 // показывает элемент ошибки
-const showInputError = (formElement, inputElement, errorMessage, params) => {
+_showInputError(formElement, inputElement, errorMessage, params) {
   // сформировать уникальное имя класса ошибки по уникальному имени поля
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
   // добавить подчеркивание красным нижней границы инпута
@@ -15,7 +23,7 @@ const showInputError = (formElement, inputElement, errorMessage, params) => {
 };
 
 // скрывает элемент ошибки
-const hideInputError = (formElement, inputElement, params) => {
+_hideInputError (formElement, inputElement, params) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
   // убрать классы ошибки и ее видимости, очистить текст ошибки
   inputElement.classList.remove(params.inputErrorClass);
@@ -24,21 +32,22 @@ const hideInputError = (formElement, inputElement, params) => {
 };
 
 // проверяет валидность одного инпута
-const checkInputValidity = (formElement, inputElement) => {
+_checkInputValidity (formElement, inputElement) {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, params);
   } else {
     hideInputError(formElement, inputElement, params);
   }
 };
+
 // проверка, есть ли хотя бы один невалидный инпут из списка
-const hasInvalidInput = (inputList) => {
+_hasInvalidInput (inputList) {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 };
 // переключение состояния кнопки сабмита
-const toggleButtonState = (inputList, buttonElement, params) => {
+_toggleButtonState (inputList, buttonElement, params) {
   // дизэйблить кнопку сохранения, если есть невалидные поля
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(params.inactiveButtonClass);
@@ -49,7 +58,7 @@ const toggleButtonState = (inputList, buttonElement, params) => {
   }
 };
 // навешивание листнеров на все инпуты
-const setEventListeners = (formElement, params) => {
+_setEventListeners (formElement, params) {
   // найти все инпуты на форме, переданной в formElement
   const inputList = Array.from(formElement.querySelectorAll(params.inputSelector));
   // найти кнопку сабмита на этой форме
@@ -66,7 +75,7 @@ const setEventListeners = (formElement, params) => {
 };
 
 // переключение состояни кнопки сабмита при открытии попапа
-const toggleSubmitButtonOnOpeningPopup = (popup, params) => {
+_toggleSubmitButtonOnOpeningPopup (popup, params) {
   // найти все инпуты в переданном popup
   const inputList = Array.from(popup.querySelectorAll(params.inputSelector));
   // найти кнопку сабмита на этой форме
@@ -76,14 +85,14 @@ const toggleSubmitButtonOnOpeningPopup = (popup, params) => {
 };
 
 // очистка сообщения об ошибках при открытии попапа
-const hideInputErrorOnOpeningPopup = (popup, params) => {
+_hideInputErrorOnOpeningPopup (popup, params) {
   const inputList = Array.from(popup.querySelectorAll(params.inputSelector));
   // для всех инпутов очистить ошибки
   inputList.forEach((inputElement) => hideInputError(popup, inputElement, params));
 };
 
 // включение валидации
-const enableValidation = (params) => {
+enableValidation (params) {
   // найти все формы на странице
   const formList = Array.from(document.querySelectorAll(params.formSelector));
   // для каждой формы сбросить дефолтное поведение кнопки сохранения
@@ -96,4 +105,10 @@ const enableValidation = (params) => {
       setEventListeners(formElement, params);
     });
   });
-};
+}
+
+
+}
+
+
+
