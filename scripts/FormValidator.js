@@ -3,40 +3,43 @@
 
 export default class FormValidator {
   constructor (params, formElement) {
-  this._params = params;
-  this._formElement = formElement;
+    this._formSelector = params.formSelector,
+    this._inputSelector = params.inputSelector,
+    this._submitButtonSelector = params.submitButtonSelector,
+    this._inactiveButtonClass = params.inactiveButtonClass,
+    this._inputErrorClass = params.inputErrorClass,
+    this._errorClass = params.errorClass;
 
-
-
+    this._formElement = formElement;
   }
 
-// показывает элемент ошибки
-_showInputError(formElement, inputElement, errorMessage, params) {
+// показывает элемент ошибки (применяется к инпуту на форме)
+_showInputError(errorMessage) {
   // сформировать уникальное имя класса ошибки по уникальному имени поля
-  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+  const errorElement = this._formElement.querySelector(`.${this._inputSelector.name}-error`);
   // добавить подчеркивание красным нижней границы инпута
-  inputElement.classList.add(params.inputErrorClass);
+  this._inputSelector.classList.add(this._inputErrorClass);
   // записать в span текст браузерной ошибки
   errorElement.textContent = errorMessage;
   // добавить ошибке видимость
-  errorElement.classList.add(params.errorClass);
+  errorElement.classList.add(this._errorClass);
 };
 
 // скрывает элемент ошибки
-_hideInputError (formElement, inputElement, params) {
-  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+_hideInputError () {
+  const errorElement = this._formElement.querySelector(`.${this._inputSelector.name}-error`);
   // убрать классы ошибки и ее видимости, очистить текст ошибки
-  inputElement.classList.remove(params.inputErrorClass);
-  errorElement.classList.remove(params.errorClass);
+  inputElement.classList.remove(this._inputErrorClass);
+  errorElement.classList.remove(this._errorClass);
   errorElement.textContent = '';
 };
 
 // проверяет валидность одного инпута
-_checkInputValidity (formElement, inputElement) {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage, params);
+_checkInputValidity () {
+  if (!this._inputSelector.validity.valid) {
+    _showInputError(this._formElement, this._inputSelector, this._inputSelector.validationMessage);
   } else {
-    hideInputError(formElement, inputElement, params);
+    _hideInputError(this._formElement, this._inputSelector);
   }
 };
 
@@ -47,64 +50,60 @@ _hasInvalidInput (inputList) {
   });
 };
 // переключение состояния кнопки сабмита
-_toggleButtonState (inputList, buttonElement, params) {
+_toggleButtonState (inputList, buttonElement) {
   // дизэйблить кнопку сохранения, если есть невалидные поля
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(params.inactiveButtonClass);
+  if (_hasInvalidInput(inputList)) {
+    buttonElement.classList.add(this._params.inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);
   } else {
-    buttonElement.classList.remove(params.inactiveButtonClass);
+    buttonElement.classList.remove(this._params.inactiveButtonClass);
     buttonElement.removeAttribute('disabled', false);
   }
 };
 // навешивание листнеров на все инпуты
-_setEventListeners (formElement, params) {
+_setEventListeners (formElement) {
   // найти все инпуты на форме, переданной в formElement
-  const inputList = Array.from(formElement.querySelectorAll(params.inputSelector));
+  const inputList = Array.from(formElement.querySelectorAll(this._params.inputSelector));
   // найти кнопку сабмита на этой форме
-  const buttonElement = formElement.querySelector(params.submitButtonSelector);
+  const buttonElement = formElement.querySelector(this._params.submitButtonSelector);
   // сделать кнопку сохранения неактивной, если поле пустое (т.е. невалидное)
-  toggleButtonState(inputList, buttonElement, params);
+  _toggleButtonState(inputList, buttonElement);
   // для каждого инпута на всех формах повесить листнеры
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement, params);
+      _checkInputValidity(formElement, inputElement);
+      _toggleButtonState(inputList, buttonElement);
     });
   });
 };
 
 // переключение состояни кнопки сабмита при открытии попапа
-_toggleSubmitButtonOnOpeningPopup (popup, params) {
+_toggleSubmitButtonOnOpeningPopup (popup) {
   // найти все инпуты в переданном popup
-  const inputList = Array.from(popup.querySelectorAll(params.inputSelector));
+  const inputList = Array.from(popup.querySelectorAll(this._params.inputSelector));
   // найти кнопку сабмита на этой форме
-  const buttonElement = popup.querySelector(params.submitButtonSelector);
+  const buttonElement = popup.querySelector(this._params.submitButtonSelector);
   // сделать кнопку сохранения неактивной, если поля невалидные
-  toggleButtonState(inputList, buttonElement, params);
+  _toggleButtonState(inputList, buttonElement, this._params);
 };
 
 // очистка сообщения об ошибках при открытии попапа
-_hideInputErrorOnOpeningPopup (popup, params) {
-  const inputList = Array.from(popup.querySelectorAll(params.inputSelector));
+_hideInputErrorOnOpeningPopup (popup) {
+  const inputList = Array.from(popup.querySelectorAll(this._params.inputSelector));
   // для всех инпутов очистить ошибки
-  inputList.forEach((inputElement) => hideInputError(popup, inputElement, params));
+  inputList.forEach((inputElement) => _hideInputError(popup, inputElement, this._params));
 };
 
-// включение валидации
-enableValidation (params) {
-  // найти все формы на странице
-  const formList = Array.from(document.querySelectorAll(params.formSelector));
-  // для каждой формы сбросить дефолтное поведение кнопки сохранения
-  formList.forEach((formElement) => {
-    formElement.addEventListener('submit', function (evt) {
+// включение валидации для одной формы
+enableValidation () {
+  // для формы сбросить дефолтное поведение кнопки сохранения
+    this._formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
-    // повесить листнеры на все инпуты во всех формах на странице
-    formList.forEach((formElement) => {
-      setEventListeners(formElement, params);
-    });
-  });
+    // повесить листнеры на все инпуты на форме
+    this._params.inputSelector.forEach((input) => {
+      _setEventListeners(input)}
+      );
 }
 
 

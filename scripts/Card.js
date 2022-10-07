@@ -24,15 +24,14 @@ export default class Card {
       return cardElement;
   }
 
-  _handleDeleteButtonClick(event) {
+  _handleDeleteButtonClick() {
   // удаляем ближайший от кнопки удаления элемент с классом element
   // обработчик события клика по картинке удаляется вместе с элементом автоматически
-  const cardListItem = event.target.closest('.element');
-  cardListItem.remove();
+  this._deleteElement.closest('.element').remove();
   }
 
-  _handleLikeButtonClick(event) {
-  event.target.classList.toggle('element__like_marked');
+  _handleLikeButtonClick() {
+  this._likeElement.classList.toggle('element__like_marked');
   }
 
   _setEventListeners() {

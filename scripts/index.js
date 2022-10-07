@@ -2,6 +2,7 @@
 // Array.from(document.querySelectorAll("*")).forEach(e => { const ev = getEventListeners(e); if (Object.keys(ev).length !== 0) {console.log(e, ev)} })
 
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 // карточки по умолчанию при загрузке страницы
 const initialCards = [{
@@ -183,5 +184,8 @@ function openImagePopup(card) {
   openPopup(imagePopup);
 };
 
-// добавление валидации на все формы
-enableValidation(params);
+// добавление валидации на формы
+const newCardFormValidate = new FormValidator(params, newCardForm);
+newCardFormValidate.enableValidation();
+const editProfileFormValidate = new FormValidator(params, profileEditForm);
+editProfileFormValidate.enableValidation();
