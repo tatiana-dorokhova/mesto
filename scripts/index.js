@@ -66,12 +66,12 @@ const newCardLinkInput = document.querySelector("input[name=popup-new-card-link]
 
 // список селекторов для вызова валидации
 const params = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit-button',
-  inactiveButtonClass: 'popup__submit-button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
+  formSelector: '.popup__form', // сама форма
+  inputSelector: '.popup__input', // любое поле ввода на форме
+  submitButtonSelector: '.popup__submit-button', // кнопка сабмита
+  inactiveButtonClass: 'popup__submit-button_disabled', // неактивная кнопка сабмита
+  inputErrorClass: 'popup__input_type_error', // класс типа ошибки для любого инпута на форме
+  errorClass: 'popup__error_visible' // класс видимой ошибки
 };
 
 //--------------------------------------------Карточки-----------------------
@@ -143,8 +143,8 @@ function openEditProfilePopup() {
   openPopup(profilePopup);
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileText.textContent;
-  toggleSubmitButtonOnOpeningPopup(profilePopup, params);
-  hideInputErrorOnOpeningPopup(profilePopup, params);
+  editProfileFormValidate.toggleSubmitButtonOnOpeningPopup(profilePopup);
+  editProfileFormValidate.hideInputErrorOnOpeningPopup(profilePopup);
 };
 
 // функция сохранения введенных данных и закрытия попапа редактирования профиля
@@ -160,7 +160,7 @@ function handleProfileFormSubmit(event) {
 // открытие попапа добавления карточки и навешивание листнера
 function openNewCardPopup() {
   openPopup(newCardPopup);
-  toggleSubmitButtonOnOpeningPopup(newCardPopup, params);
+  newCardFormValidate.toggleSubmitButtonOnOpeningPopup(newCardPopup);
 };
 
 // функция сохранения введенных данных и закрытия попапа добавления карточки

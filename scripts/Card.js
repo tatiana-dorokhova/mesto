@@ -1,5 +1,5 @@
 export default class Card {
-  constructor (card, templateSelector, openImagePopup) {
+  constructor(card, templateSelector, openImagePopup) {
     this._card = card;
     this._templateSelector = templateSelector;
     this._openImagePopup = openImagePopup;
@@ -14,24 +14,24 @@ export default class Card {
   // забрать шаблон карточки из index.html
   _getTemplate() {
     // забираем разметку из HTML и клонируем элемент
-      const cardElement = document
+    const cardElement = document
       .querySelector(this._templateSelector)
       .content
       .querySelector('.element')
       .cloneNode(true);
-      console.log(1);
+    console.log(1);
     // вернём DOM-элемент карточки
-      return cardElement;
+    return cardElement;
   }
 
   _handleDeleteButtonClick() {
-  // удаляем ближайший от кнопки удаления элемент с классом element
-  // обработчик события клика по картинке удаляется вместе с элементом автоматически
-  this._deleteElement.closest('.element').remove();
+    // удаляем ближайший от кнопки удаления элемент с классом element
+    // обработчик события клика по картинке удаляется вместе с элементом автоматически
+    this._deleteElement.closest('.element').remove();
   }
 
   _handleLikeButtonClick() {
-  this._likeElement.classList.toggle('element__like_marked');
+    this._likeElement.classList.toggle('element__like_marked');
   }
 
   _setEventListeners() {
@@ -49,15 +49,15 @@ export default class Card {
     });
   }
 
-    // наполнение шаблона карточки данными
-    generateCard() {
-      // добавить данные
-      this._nameElement.innerText = this._card.name;
-      this._imageElement.alt = this._card.name;
-      this._imageElement.src = this._card.link;
-      // навесить листнеры
-      this._setEventListeners();
-      // вернуть заполненный элемент наружу
-      return this._element;
-    }
+  // наполнение шаблона карточки данными
+  generateCard() {
+    // добавить данные
+    this._nameElement.innerText = this._card.name;
+    this._imageElement.alt = this._card.name;
+    this._imageElement.src = this._card.link;
+    // навесить листнеры
+    this._setEventListeners();
+    // вернуть заполненный элемент наружу
+    return this._element;
+  }
 }
