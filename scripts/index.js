@@ -39,19 +39,17 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name');
 const profileText = document.querySelector('.profile__text');
 
-// кнопки закрытия попапов
-const popupCloseButtons = document.querySelectorAll('.popup__close-button');
-
 // селекторы карточки
 const buttonAddCard = document.querySelector('.profile__add-button');
 
 // селекторы попапов
 const popups = document.querySelectorAll('.popup');
+
 const profilePopup = document.querySelector('.popup.popup-edit');
 const newCardPopup = document.querySelector('.popup.popup-add');
 const imagePopup = document.querySelector('.popup.popup-image');
 
-// селекторы попапа с картинкой
+// селекторы открытого попапа с картинкой
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
 
@@ -76,8 +74,6 @@ const params = {
 
 //--------------------------------------------Карточки-----------------------
 
-
-
 // добавить карточку в DOM
 function addCardInList(card) {
   // экземпляр карточки
@@ -90,9 +86,7 @@ function addCardInList(card) {
 // генерация карточек при загрузке страницы
 initialCards.forEach(addCardInList);
 
-
 //--------------------------------------------Поп-апы-----------------------
-
 
 // на все попапы навешиваем листнеры для нажатия на крестик и на область вне попапа (оверлей)
 // используем mousedown, чтобы попап не закрывался, если изначально нажали на него,
@@ -107,7 +101,6 @@ popups.forEach((popup) => {
     }
   })
 });
-
 
 // обработчики нажатия кнопок
 profileEditButton.addEventListener('click', openEditProfilePopup);
@@ -143,8 +136,8 @@ function openEditProfilePopup() {
   openPopup(profilePopup);
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileText.textContent;
-  editProfileFormValidate.toggleSubmitButtonOnOpeningPopup(profilePopup);
-  editProfileFormValidate.hideInputErrorOnOpeningPopup(profilePopup);
+  editProfileFormValidate.toggleSubmitButtonOnOpeningPopup();
+  editProfileFormValidate.hideInputErrorOnOpeningPopup();
 };
 
 // функция сохранения введенных данных и закрытия попапа редактирования профиля
@@ -160,7 +153,7 @@ function handleProfileFormSubmit(event) {
 // открытие попапа добавления карточки и навешивание листнера
 function openNewCardPopup() {
   openPopup(newCardPopup);
-  newCardFormValidate.toggleSubmitButtonOnOpeningPopup(newCardPopup);
+  newCardFormValidate.toggleSubmitButtonOnOpeningPopup();
 };
 
 // функция сохранения введенных данных и закрытия попапа добавления карточки

@@ -19,7 +19,6 @@ export default class Card {
       .content
       .querySelector('.element')
       .cloneNode(true);
-    console.log(1);
     // вернём DOM-элемент карточки
     return cardElement;
   }

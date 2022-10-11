@@ -1,19 +1,24 @@
 export default class FormValidator {
   constructor(params, formElement) {
-    this._formSelector = params.formSelector,
-      this._inputSelector = params.inputSelector,
-      this._submitButtonSelector = params.submitButtonSelector,
-      this._inactiveButtonClass = params.inactiveButtonClass,
-      this._inputErrorClass = params.inputErrorClass,
-      this._errorClass = params.errorClass;
+    this._formSelector = params.formSelector;
+    this._inputSelector = params.inputSelector;
+    this._submitButtonSelector = params.submitButtonSelector;
+    this._inactiveButtonClass = params.inactiveButtonClass;
+    this._inputErrorClass = params.inputErrorClass;
+    this._errorClass = params.errorClass;
 
     this._formElement = formElement;
+
+    // все инпуты на форме
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    // кнопка сабмита на форме
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   // показывает элемент ошибки
-  _showInputError(formElement, inputElement, errorMessage) {
+  _showInputError(inputElement, errorMessage) {
     // сформировать уникальное имя класса ошибки по уникальному имени поля
-    const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+    const errorElement = this._formElement.querySelector(`.${inputElement.name}-error`);
     // добавить подчеркивание красным нижней границы инпута
     inputElement.classList.add(this._inputErrorClass);
     // записать в span текст браузерной ошибки
@@ -23,8 +28,8 @@ export default class FormValidator {
   };
 
   // скрывает элемент ошибки
-  _hideInputError(formElement, inputElement) {
-    const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+  _hideInputError(inputElement) {
+    const errorElement = this._formElement.querySelector(`.${inputElement.name}-error`);
     // убрать классы ошибки и ее видимости, очистить текст ошибки
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);
@@ -32,63 +37,54 @@ export default class FormValidator {
   };
 
   // проверяет валидность одного инпута
-  _checkInputValidity(formElement, inputElement) {
+  _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
-      this._showInputError(formElement, inputElement, inputElement.validationMessage);
+      this._showInputError(inputElement, inputElement.validationMessage);
     } else {
-      this._hideInputError(formElement, inputElement);
+      this._hideInputError(inputElement);
     }
   };
 
   // проверка, есть ли хотя бы один невалидный инпут из списка
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
   // переключение состояния кнопки сабмита
-  _toggleButtonState(inputList, buttonElement) {
+  _toggleButtonState() {
     // дизэйблить кнопку сохранения, если есть невалидные поля
-    if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.setAttribute('disabled', true);
+    if (this._hasInvalidInput()) {
+      this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.setAttribute('disabled', true);
     } else {
-      buttonElement.classList.remove(this._inactiveButtonClass);
-      buttonElement.removeAttribute('disabled', false);
+      this._buttonElement.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.removeAttribute('disabled', false);
     }
   };
-  // навешивание листнеров на все инпуты
-  _setEventListeners(formElement) {
-    // найти все инпуты на форме, переданной в formElement
-    const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-    // найти кнопку сабмита на этой форме
-    const buttonElement = formElement.querySelector(this._submitButtonSelector);
+  // навешивание листнеров на все инпуты формы
+  _setEventListeners() {
     // сделать кнопку сохранения неактивной, если поле пустое (т.е. невалидное)
-    this._toggleButtonState(inputList, buttonElement);
-    // для каждого инпута на всех формах повесить листнеры
-    inputList.forEach((inputElement) => {
+    this._toggleButtonState();
+    // для каждого инпута на форме повесить листнеры
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
-        this._checkInputValidity(formElement, inputElement);
-        this._toggleButtonState(inputList, buttonElement);
+        this._checkInputValidity(inputElement);
+        this._toggleButtonState();
       });
     });
   };
 
   // переключение состояния кнопки сабмита при открытии попапа
-  toggleSubmitButtonOnOpeningPopup(formElement) {
-    // найти все инпуты в переданном popup
-    const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-    // найти кнопку сабмита на этой форме
-    const buttonElement = formElement.querySelector(this._submitButtonSelector);
+  toggleSubmitButtonOnOpeningPopup() {
     // сделать кнопку сохранения неактивной, если поля невалидные
-    this._toggleButtonState(inputList, buttonElement);
+    this._toggleButtonState(this._inputList, this._buttonElement);
   };
 
   // очистка сообщения об ошибках при открытии попапа
-  hideInputErrorOnOpeningPopup(formElement) {
-    const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
+  hideInputErrorOnOpeningPopup() {
     // для всех инпутов очистить ошибки
-    inputList.forEach((inputElement) => this._hideInputError(formElement, inputElement));
+    this._inputList.forEach((inputElement) => this._hideInputError(inputElement));
   };
 
   // включение валидации для конкретной формы
@@ -97,7 +93,7 @@ export default class FormValidator {
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    // повесить листнеры на все инпуты во всех формах на странице
-    this._setEventListeners(this._formElement);
+    // повесить листнеры на все инпуты формы
+    this._setEventListeners();
   };
 }
