@@ -74,17 +74,23 @@ const params = {
 
 //--------------------------------------------Карточки-----------------------
 
-// добавить карточку в DOM
-function addCardInList(card) {
+// сгенерировать карточку с переданными параметрами
+function renderCard(card) {
   // экземпляр карточки
   const newCard = new Card(card, '.card-template_type_default', openImagePopup);
   // создаем карточку и возвращаем наружу
   const renderedCard = newCard.generateCard();
-  cardList.prepend(renderedCard);
+  return renderedCard;
+};
+// добавить карточку в DOM
+function addCardInList(card) {
+  cardList.prepend(card);
 };
 
 // генерация карточек при загрузке страницы
-initialCards.forEach(addCardInList);
+initialCards.forEach((card) => {
+  addCardInList(renderCard(card));
+});
 
 //--------------------------------------------Поп-апы-----------------------
 
@@ -93,10 +99,7 @@ initialCards.forEach(addCardInList);
 // но потом перетащили нажатый курсор за его пределы
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-      closePopup(popup)
-    }
-    if (evt.target.classList.contains('popup__close-button')) {
+    if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
       closePopup(popup)
     }
   })
@@ -165,7 +168,7 @@ function handleNewCardFormSubmit(event) {
     link: newCardLinkInput.value
   }
   event.target.reset();
-  addCardInList(newCardData);
+  addCardInList(renderCard(newCardData));
   closePopup(newCardPopup);
 };
 
