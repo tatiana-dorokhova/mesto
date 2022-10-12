@@ -168,7 +168,7 @@ function handleNewCardFormSubmit(event) {
     link: newCardLinkInput.value
   }
   event.target.reset();
-  renderCard(newCardData);
+  addCardInList(renderCard(newCardData));
   closePopup(newCardPopup);
 };
 
