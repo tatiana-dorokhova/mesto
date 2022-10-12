@@ -26,7 +26,8 @@ export default class Card {
   _handleDeleteButtonClick() {
     // удаляем ближайший от кнопки удаления элемент с классом element
     // обработчик события клика по картинке удаляется вместе с элементом автоматически
-    this._deleteElement.closest('.element').remove();
+    this._element.remove();
+    this._element = null;  // таким образом удалится ссылка на элемент, и сборщик мусора при следующем проходе очистит память
   }
 
   _handleLikeButtonClick() {
