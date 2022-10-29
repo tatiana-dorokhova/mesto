@@ -17,7 +17,6 @@ export default class Section {
 
   // публичный метод, который добавляет один отрендеренный элемент в контейнер
   addItem(element) {
-    console.log('element = ', element);
     this._container.prepend(element);
   }
 }

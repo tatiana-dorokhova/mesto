@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 import {
-  params
+  formSettings
 } from "../utils/constants.js";
 
 export default class PopupWithForm extends Popup {
@@ -12,9 +12,9 @@ export default class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit;
 
     // форма в попапе и ее элементы
-    this._popupForm = document.querySelector(params.formSelector);
-    this._popupFormInputs = this._popupForm.querySelectorAll(params.inputSelector);
-    this._popupFormSubmitButton = this._popupForm.querySelector(params.submitButtonSelector);
+    this._popupForm = this._popup.querySelector(formSettings.formSelector);
+    this._popupFormInputs = this._popupForm.querySelectorAll(formSettings.inputSelector);
+    this._popupFormSubmitButton = this._popupForm.querySelector(formSettings.submitButtonSelector);
   }
   // метод, возвращающий список полей формы попапа
   _getInputValues() {
@@ -36,15 +36,9 @@ export default class PopupWithForm extends Popup {
     super.setEventListeners();
     // закрытие попапа по нажатию на кнопку сабмита с очисткой формы
     this._popupForm.addEventListener('submit', (evt) => {
-      console.log('add listener');
       evt.preventDefault();
       this._handleFormSubmit(this._getInputValues());
       this.close();
     })
   }
-
-
-
-
-
 }
