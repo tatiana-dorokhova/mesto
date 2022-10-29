@@ -21,7 +21,7 @@ import {
   cardList,
   profileEditButton,
   addCardButton,
-  params,
+  formSettings,
   newCardForm,
   profileEditForm,
   profileNameInput,
@@ -60,36 +60,35 @@ const cardsList = new Section({
   },
   cardList
 );
-// для каждого элемента листа сформировать и отрисовать карточку
 
+// для каждого элемента листа сформировать и отрисовать карточку
 cardsList.renderItems();
 
 //----------------------------------------Валидация форм-----------------------
-const newCardFormValidate = new FormValidator(params, newCardForm);
+const newCardFormValidate = new FormValidator(formSettings, newCardForm);
 newCardFormValidate.enableValidation();
 
-const editProfileFormValidate = new FormValidator(params, profileEditForm);
+const editProfileFormValidate = new FormValidator(formSettings, profileEditForm);
 editProfileFormValidate.enableValidation();
 
 //--------------------------------------------Поп-апы-----------------------
 // попап редактирования профиля
-// const popupEditProfile = new PopupWithForm(profilePopup, (inputValues) => {
-//   userInfo.setUserInfo({
-//     name: inputValues['popup-profile-name'],
-//     info: inputValues['popup-profile-job']
-//   });
-// });
-// popupEditProfile.setEventListeners();
-// // обработчик нажатия кнопки редактирования профиля
-// profileEditButton.addEventListener('click', () => {
-//   // вставить в поля формы значения со страницы
-//   const prevValues = userInfo.getUserInfo();
-//   profileNameInput.value = prevValues.name;
-//   profileJobInput.value = prevValues.info;
-//   // открыть попап
-//   popupEditProfile.open();
-// });
-
+const popupEditProfile = new PopupWithForm(profilePopup, (inputValues) => {
+  userInfo.setUserInfo({
+    name: inputValues['popup-profile-name'],
+    info: inputValues['popup-profile-job']
+  });
+});
+popupEditProfile.setEventListeners();
+// обработчик нажатия кнопки редактирования профиля
+profileEditButton.addEventListener('click', () => {
+  // вставить в поля формы значения со страницы
+  const prevValues = userInfo.getUserInfo();
+  profileNameInput.value = prevValues.name;
+  profileJobInput.value = prevValues.info;
+  // открыть попап
+  popupEditProfile.open();
+});
 
 // попап добавления карточки
 const popupNewCard = new PopupWithForm(newCardPopup, (inputValues) => {
@@ -98,12 +97,8 @@ const popupNewCard = new PopupWithForm(newCardPopup, (inputValues) => {
     link: inputValues['popup-new-card-link']
   });
   cardsList.addItem(element);
-  console.log('inputValues = ', inputValues);
 });
-console.log('dddd');
 popupNewCard.setEventListeners();
-console.log('sss');
-
 // обработчик нажатия кнопки добавления карточки
 addCardButton.addEventListener('click', () => {
   popupNewCard.open();
@@ -112,4 +107,3 @@ addCardButton.addEventListener('click', () => {
 // попап клика на картинку (обработчик клика уже есть в классе Card)
 const popupImage = new PopupWithImage(imagePopup);
 popupImage.setEventListeners();
-

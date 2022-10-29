@@ -57,7 +57,7 @@ export const newCardNameInput = document.querySelector("input[name=popup-new-car
 export const newCardLinkInput = document.querySelector("input[name=popup-new-card-link]");
 
 // список селекторов для вызова валидации
-export const params = {
+export const formSettings = {
   formSelector: '.popup__form', // сама форма
   inputSelector: '.popup__input', // любое поле ввода на форме
   submitButtonSelector: '.popup__submit-button', // кнопка сабмита
