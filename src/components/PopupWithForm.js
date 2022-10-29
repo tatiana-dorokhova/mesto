@@ -1,7 +1,4 @@
 import Popup from "./Popup";
-import {
-  formSettings
-} from "../utils/constants.js";
 
 export default class PopupWithForm extends Popup {
   constructor(
@@ -12,9 +9,8 @@ export default class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit;
 
     // форма в попапе и ее элементы
-    this._popupForm = this._popup.querySelector(formSettings.formSelector);
-    this._popupFormInputs = this._popupForm.querySelectorAll(formSettings.inputSelector);
-    this._popupFormSubmitButton = this._popupForm.querySelector(formSettings.submitButtonSelector);
+    this._popupForm = this._popup.querySelector('.popup__form');
+    this._popupFormInputs = this._popupForm.querySelectorAll('.popup__input');
   }
   // метод, возвращающий список полей формы попапа
   _getInputValues() {
@@ -23,6 +19,14 @@ export default class PopupWithForm extends Popup {
       this._formValues[input.name] = input.value;
     });
     return this._formValues;
+  }
+
+  setInputValues(data) {
+    console.log('data = ', data);
+    this._popupFormInputs.forEach((input) => {
+      // тут вставляем в `value` инпута данные из объекта по атрибуту `name` этого инпута
+        input.value = data[input.name];
+    });
   }
 
   // закрытие формы с ее очисткой
