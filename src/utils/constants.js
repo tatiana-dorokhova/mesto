@@ -51,6 +51,7 @@ export const popupCaption = '.popup__caption';
 export const profileEditForm = document.querySelector('form[name=profile-edit-form]');
 export const profileNameInput = document.querySelector("input[name=popup-profile-name]");
 export const profileJobInput = document.querySelector("input[name=popup-profile-job]");
+
 // форма добавления карточки
 export const newCardForm = document.querySelector('form[name=new-card-form]');
 export const newCardNameInput = document.querySelector("input[name=popup-new-card-name]");

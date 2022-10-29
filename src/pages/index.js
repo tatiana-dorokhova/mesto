@@ -23,9 +23,7 @@ import {
   addCardButton,
   formSettings,
   newCardForm,
-  profileEditForm,
-  profileNameInput,
-  profileJobInput
+  profileEditForm
 } from '../utils/constants.js';
 
 
@@ -83,9 +81,12 @@ popupEditProfile.setEventListeners();
 // обработчик нажатия кнопки редактирования профиля
 profileEditButton.addEventListener('click', () => {
   // вставить в поля формы значения со страницы
-  const prevValues = userInfo.getUserInfo();
-  profileNameInput.value = prevValues.name;
-  profileJobInput.value = prevValues.info;
+  const currentProfileValues = userInfo.getUserInfo();
+  const profileValuesToSetInForm = {
+    'popup-profile-name': currentProfileValues['name'],
+    'popup-profile-job': currentProfileValues['info']
+  };
+  popupEditProfile.setInputValues(profileValuesToSetInForm);
   // открыть попап
   popupEditProfile.open();
 });
@@ -101,6 +102,8 @@ const popupNewCard = new PopupWithForm(newCardPopup, (inputValues) => {
 popupNewCard.setEventListeners();
 // обработчик нажатия кнопки добавления карточки
 addCardButton.addEventListener('click', () => {
+  // деактивировать кнопку сабмита, если инпуты пустые
+  newCardFormValidate.toggleSubmitButtonOnOpeningPopup();
   popupNewCard.open();
 });
 
