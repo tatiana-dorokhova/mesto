@@ -7,8 +7,10 @@ import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api';
 
 // импорт констант
 import {
@@ -23,9 +25,15 @@ import {
   addCardButton,
   formSettings,
   newCardForm,
-  profileEditForm
+  profileEditForm,
+  apiConfig
 } from '../utils/constants.js';
 
+
+// экземпляр класса API для запросов к серверу
+  const api = new Api(apiConfig); 
+
+  console.log(api.getUserInfo());
 
 //-------------------------------Информация профиля--------------------------
 const userInfo = new UserInfo({
