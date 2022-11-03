@@ -14,13 +14,13 @@ import Api from '../components/Api';
 
 // импорт констант
 import {
-  initialCards,
   profileName,
   profileText,
+  profileAvatar,
   profilePopup,
   newCardPopup,
   imagePopup,
-  cardList,
+  cardListContainer,
   profileEditButton,
   addCardButton,
   formSettings,
@@ -31,17 +31,33 @@ import {
 
 
 // экземпляр класса API для запросов к серверу
-  const api = new Api(apiConfig); 
-
-  console.log(api.getUserInfo());
+const api = new Api(apiConfig);
 
 //-------------------------------Информация профиля--------------------------
 const userInfo = new UserInfo({
   userName: profileName,
-  userDetails: profileText
+  userDetails: profileText,
+  userAvatar: profileAvatar
 });
 
+// получить данные с сервера и заполнить ими нужные поля
+api.getUserProfile()
+  .then((res) => {
+    userInfo.setUserInfo(res);
+  })
+  .catch((err) => console.log(err));
+
 //--------------------------------------------Карточки-----------------------
+
+// получить лист карточек с сервера и отрисовать их на странице 
+// в каждой карточке приходят name, link, _id карточки
+api.getInitialCards()
+  .then((initialCards) => {
+    // для каждого элемента листа сформировать и отрисовать карточку
+    cardsList.renderItems(initialCards);
+  })
+  .catch(err => console.log(err));
+
 // сгенерировать одну карточку с переданными параметрами
 const renderCard = (card) => {
   // экземпляр карточки
@@ -56,20 +72,17 @@ const renderCard = (card) => {
   return renderedCard;
 };
 
-// сформировать лист карточек
 const cardsList = new Section({
-    items: initialCards,
     renderer: (item) => {
       const cardElement = renderCard(item);
       cardsList.addItem(cardElement);
     },
   },
-  cardList
+  cardListContainer
 );
 
-// для каждого элемента листа сформировать и отрисовать карточку
-cardsList.renderItems();
-
+// взять Сохранение из тренажера (вызов функции с true в начале и false в блоке finally)
+// Работа с API, 6 урок
 //----------------------------------------Валидация форм-----------------------
 const newCardFormValidate = new FormValidator(formSettings, newCardForm);
 newCardFormValidate.enableValidation();
@@ -82,17 +95,17 @@ editProfileFormValidate.enableValidation();
 const popupEditProfile = new PopupWithForm(profilePopup, (inputValues) => {
   userInfo.setUserInfo({
     name: inputValues['popup-profile-name'],
-    info: inputValues['popup-profile-job']
+    about: inputValues['popup-profile-job']
   });
 });
-popupEditProfile.setEventListeners();
+popupEditProfile.setEventListeners('Сохранить', 'Сохранение...');
 // обработчик нажатия кнопки редактирования профиля
 profileEditButton.addEventListener('click', () => {
   // вставить в поля формы значения со страницы
   const currentProfileValues = userInfo.getUserInfo();
   const profileValuesToSetInForm = {
     'popup-profile-name': currentProfileValues['name'],
-    'popup-profile-job': currentProfileValues['info']
+    'popup-profile-job': currentProfileValues['about']
   };
   popupEditProfile.setInputValues(profileValuesToSetInForm);
   // открыть попап

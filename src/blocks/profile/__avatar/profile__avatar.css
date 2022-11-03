@@ -1,4 +1,27 @@
 .profile__avatar {
-  max-height: 120px;
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
   border-radius: 50%;
+}
+
+/* тэг ::after не применяется к img :(((
+надо переделать аватарку или сделать элемент поверх текущей аватарки */
+.profile__avatar::after {
+  content: url('../../../images/profile/profile-edit-avatar.svg');
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: block;
+} 
+
+
+.profile__avatar:hover{
+  cursor: pointer;
+  opacity: 0.8;
 }

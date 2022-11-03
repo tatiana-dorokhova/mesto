@@ -11,20 +11,24 @@ export default class Api {
   // каждый метод возвращает promise, который будем обрабатывать уже при вызове
   // методов в index.js
 
+  // общий метод для всех методов, который проверяет результат на корректность,
+  // и возвращает ответ в виде json (или прокидывает ошибку)
+  _handlePromise(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
+
   // загрузка информации о пользователе с сервера
   // свойство _id в ответе — это идентификатор пользователя
-  getUserInfo() {
+  getUserProfile() {
     return fetch(`${this._baseUrl}/users/me`, {
         headers: this._headers
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
 
   // загрузка карточек с сервера
@@ -33,19 +37,12 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards`, {
         headers: this._headers
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
 
   // редактирование профиля
   // свойство _id в ответе — это идентификатор пользователя
-  editUserInfo(newUserName, newUserAbout) {
+  editUserProfile(newUserName, newUserAbout) {
     return fetch(`${this._baseUrl}/users/me`, {
         method: 'PATCH',
         headers: this._headers,
@@ -54,14 +51,7 @@ export default class Api {
           about: newUserAbout
         })
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
 
   // добавление новой карточки
@@ -75,14 +65,7 @@ export default class Api {
           link: newCardLink
         })
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
 
   // удаление карточки по ее id
@@ -91,14 +74,7 @@ export default class Api {
         method: 'DELETE',
         headers: this._headers
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
 
   // поставить лайк карточке по ее id
@@ -108,14 +84,7 @@ export default class Api {
         method: 'PUT',
         headers: this._headers
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
 
   // снять лайк с карточки по ее id
@@ -124,14 +93,7 @@ export default class Api {
         method: 'DELETE',
         headers: this._headers
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
 
   // сменить аватар у пользователя в профиле
@@ -143,14 +105,6 @@ export default class Api {
           avatar: newAvatarLink
         })
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._handlePromise(res))
   }
-
 }
