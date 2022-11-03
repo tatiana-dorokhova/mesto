@@ -9,6 +9,7 @@ export default class Card {
     this._imageElement = this._element.querySelector('.element__image');
     this._deleteElement = this._element.querySelector('.element__delete');
     this._likeElement = this._element.querySelector('.element__like');
+    this._likeCounterElement = this._element.querySelector('.element__likes-counter');
   }
 
   // забрать шаблон карточки из index.html
@@ -55,6 +56,7 @@ export default class Card {
     this._nameElement.innerText = this._card.name;
     this._imageElement.alt = this._card.name;
     this._imageElement.src = this._card.link;
+    this._likeCounterElement.textContent = this._card.likes.length;
     // навесить листнеры
     this._setEventListeners();
     // вернуть заполненный элемент наружу
