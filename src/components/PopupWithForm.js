@@ -22,7 +22,6 @@ export default class PopupWithForm extends Popup {
   }
 
   setInputValues(data) {
-    console.log('data = ', data);
     this._popupFormInputs.forEach((input) => {
       // тут вставляем в `value` инпута данные из объекта по атрибуту `name` этого инпута
         input.value = data[input.name];
@@ -35,12 +34,13 @@ export default class PopupWithForm extends Popup {
     super.close();
   }
 
-  setEventListeners() {
+  setEventListeners(originalButtonText, buttonTextWhileSaving) {
     // закрытие попапа по кнопке и оверлею без очистки формы
     super.setEventListeners();
     // закрытие попапа по нажатию на кнопку сабмита с очисткой формы
     this._popupForm.addEventListener('submit', (evt) => {
       evt.preventDefault();
+      super.changeButtonTextOnSaving(true, originalButtonText, buttonTextWhileSaving);
       this._handleFormSubmit(this._getInputValues());
       this.close();
     })
