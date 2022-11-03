@@ -66,3 +66,11 @@ export const formSettings = {
   inputErrorClass: 'popup__input_type_error', // класс типа ошибки для любого инпута на форме
   errorClass: 'popup__error_visible' // класс видимой ошибки
 };
+
+export const apiConfig = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-52',
+  headers: {
+    authorization: '2dd148fa-cdec-4e91-b47f-aa7d67bc876a',
+    'Content-Type': 'application/json'
+  }
+}
