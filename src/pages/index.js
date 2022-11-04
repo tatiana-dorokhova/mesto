@@ -17,15 +17,19 @@ import {
   profileName,
   profileText,
   profileAvatar,
+  profileAvatarButton,
   profilePopup,
   newCardPopup,
   imagePopup,
+  editAvatarPopup,
+  deleteCardPopup,
   cardListContainer,
   profileEditButton,
   addCardButton,
   formSettings,
   newCardForm,
   profileEditForm,
+  editAvatarForm,
   apiConfig
 } from '../utils/constants.js';
 
@@ -81,14 +85,16 @@ const cardsList = new Section({
   cardListContainer
 );
 
-// взять Сохранение из тренажера (вызов функции с true в начале и false в блоке finally)
-// Работа с API, 6 урок
+
 //----------------------------------------Валидация форм-----------------------
 const newCardFormValidate = new FormValidator(formSettings, newCardForm);
 newCardFormValidate.enableValidation();
 
 const editProfileFormValidate = new FormValidator(formSettings, profileEditForm);
 editProfileFormValidate.enableValidation();
+
+const editAvatarFormValidate = new FormValidator(formSettings, editAvatarForm);
+editAvatarFormValidate.enableValidation();
 
 //--------------------------------------------Поп-апы-----------------------
 // попап редактирования профиля
@@ -131,3 +137,35 @@ addCardButton.addEventListener('click', () => {
 // попап клика на картинку (обработчик клика уже есть в классе Card)
 const popupImage = new PopupWithImage(imagePopup);
 popupImage.setEventListeners();
+
+
+//попап редактирования аватарки
+const popupEditAvatar = new PopupWithForm(editAvatarPopup, (inputValues) => {
+  // по кнопке сабмита должно происходить:
+  // замена текста кнопки на Сохранение...
+  // отправка запроса на сервер с линком, который указали в форме
+  // замена аватарки на странице на ту, которую вернул запрос
+  // изменение текста кнопки обратно на Сохранить
+
+  popupEditAvatar.changeButtonTextOnSaving(true, 'Сохранить', 'Сохранение...');
+  const newAvatarLink = inputValues['popup-new-avatar-link'];
+  api.updateUserAvatar(newAvatarLink)
+    .then((data) => {
+      console.log('data = ', data);
+      userInfo.setUserInfo(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupEditAvatar.changeButtonTextOnSaving(false, 'Сохранить', 'Сохранение...');
+    });
+});
+
+popupEditAvatar.setEventListeners();
+
+profileAvatarButton.addEventListener('click', () => {
+  // деактивировать кнопку сабмита, если инпуты пустые
+  editAvatarFormValidate.toggleSubmitButtonOnOpeningPopup();
+  popupEditAvatar.open();
+});
