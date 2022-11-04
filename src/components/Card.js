@@ -1,6 +1,9 @@
 export default class Card {
-  constructor(card, templateSelector, handleCardClick) {
+  constructor(card, userId, templateSelector, handleCardClick) {
     this._card = card;
+
+    this._userId = userId;
+
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
 
@@ -28,7 +31,7 @@ export default class Card {
     // удаляем ближайший от кнопки удаления элемент с классом element
     // обработчик события клика по картинке удаляется вместе с элементом автоматически
     this._element.remove();
-    this._element = null;  // таким образом удалится ссылка на элемент, и сборщик мусора при следующем проходе очистит память
+    this._element = null; // таким образом удалится ссылка на элемент, и сборщик мусора при следующем проходе очистит память
   }
 
   _handleLikeButtonClick() {
@@ -56,7 +59,13 @@ export default class Card {
     this._nameElement.innerText = this._card.name;
     this._imageElement.alt = this._card.name;
     this._imageElement.src = this._card.link;
-    this._likeCounterElement.textContent = this._card.likes.length;
+    this._likeCounterElement.innerText = this._card.likes.length;
+
+    // если id owner-а карточки не совпадает с id из api.getUserProfile, 
+    // то удалить корзину с карточки (наверное можно скрывать, а не удалять)
+    if (this._card.owner._id !== this._userId) {
+      this._deleteElement.remove();
+    }
     // навесить листнеры
     this._setEventListeners();
     // вернуть заполненный элемент наружу

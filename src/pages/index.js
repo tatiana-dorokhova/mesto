@@ -37,6 +37,9 @@ import {
 // экземпляр класса API для запросов к серверу
 const api = new Api(apiConfig);
 
+// id пользователя один и тот же, его можно положить в переменную
+let userId;
+
 //-------------------------------Информация профиля--------------------------
 const userInfo = new UserInfo({
   userName: profileName,
@@ -47,6 +50,7 @@ const userInfo = new UserInfo({
 // получить данные с сервера и заполнить ими нужные поля
 api.getUserProfile()
   .then((res) => {
+    userId = res._id;
     userInfo.setUserInfo(res);
   })
   .catch((err) => console.log(err));
@@ -62,10 +66,9 @@ api.getInitialCards()
   })
   .catch(err => console.log(err));
 
-// сгенерировать одну карточку с переданными параметрами
 const renderCard = (card) => {
   // экземпляр карточки
-  const newCard = new Card(card, '.card-template_type_default', () => {
+  const newCard = new Card(card, userId, '.card-template_type_default', () => {
     popupImage.open({
       name: card.name,
       link: card.link
@@ -121,7 +124,6 @@ const popupEditProfile = new PopupWithForm(profilePopup, (inputValues) => {
     .finally(() => {
       popupEditProfile.changeButtonTextOnSaving(false, 'Сохранить', 'Сохранение...');
     });
-
 });
 popupEditProfile.setEventListeners();
 // обработчик нажатия кнопки редактирования профиля
@@ -133,18 +135,40 @@ profileEditButton.addEventListener('click', () => {
     'popup-profile-job': currentProfileValues['about']
   };
   popupEditProfile.setInputValues(profileValuesToSetInForm);
+  // активировать кнопку сабмита, т.к. поля заполнены
+  editProfileFormValidate.toggleSubmitButtonOnOpeningPopup();
   // открыть попап
   popupEditProfile.open();
 });
 
 // попап добавления карточки
 const popupNewCard = new PopupWithForm(newCardPopup, (inputValues) => {
-  const element = renderCard({
-    name: inputValues['popup-new-card-name'],
-    link: inputValues['popup-new-card-link']
-  });
-  cardsList.addItem(element);
+  // по кнопке сабмита должно происходить:
+  // замена текста кнопки на Сохранение...
+  // отправка запроса на сервер с name и link, которые указали в форме
+  // из ответа с сервера генерим карточку и добавляем ее в контейнер карточек
+  // изменение текста кнопки обратно на Сохранить
+
+  popupNewCard.changeButtonTextOnSaving(true, 'Создать', 'Сохранение...');
+
+  const newCardData = {
+    newCardName: inputValues['popup-new-card-name'],
+    newCardLink: inputValues['popup-new-card-link']
+  };
+
+  api.addNewCard(newCardData)
+    .then((data) => {
+      const element = renderCard(data);
+      cardsList.addItem(element);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupNewCard.changeButtonTextOnSaving(false, 'Создать', 'Сохранение...');
+    });
 });
+
 popupNewCard.setEventListeners();
 // обработчик нажатия кнопки добавления карточки
 addCardButton.addEventListener('click', () => {
