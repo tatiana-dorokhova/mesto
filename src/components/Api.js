@@ -42,7 +42,7 @@ export default class Api {
 
   // редактирование профиля
   // свойство _id в ответе — это идентификатор пользователя
-  editUserProfile(newUserName, newUserAbout) {
+  editUserProfile({newUserName, newUserAbout}) {
     return fetch(`${this._baseUrl}/users/me`, {
         method: 'PATCH',
         headers: this._headers,

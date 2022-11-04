@@ -98,13 +98,32 @@ editAvatarFormValidate.enableValidation();
 
 //--------------------------------------------Поп-апы-----------------------
 // попап редактирования профиля
+
 const popupEditProfile = new PopupWithForm(profilePopup, (inputValues) => {
-  userInfo.setUserInfo({
-    name: inputValues['popup-profile-name'],
-    about: inputValues['popup-profile-job']
-  });
+  // по кнопке сабмита должно происходить:
+  // замена текста кнопки на Сохранение...
+  // отправка запроса на сервер с name и about, которые указали в форме
+  // замена аватарки на странице на ту, которую вернул запрос
+  // изменение текста кнопки обратно на Сохранить
+  popupEditProfile.changeButtonTextOnSaving(true, 'Сохранить', 'Сохранение...');
+
+  const newUserInfo = {
+    newUserName: inputValues['popup-profile-name'],
+    newUserAbout: inputValues['popup-profile-job']
+  };
+  api.editUserProfile(newUserInfo)
+    .then((data) => {
+      userInfo.setUserInfo(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupEditProfile.changeButtonTextOnSaving(false, 'Сохранить', 'Сохранение...');
+    });
+
 });
-popupEditProfile.setEventListeners('Сохранить', 'Сохранение...');
+popupEditProfile.setEventListeners();
 // обработчик нажатия кнопки редактирования профиля
 profileEditButton.addEventListener('click', () => {
   // вставить в поля формы значения со страницы
@@ -151,7 +170,6 @@ const popupEditAvatar = new PopupWithForm(editAvatarPopup, (inputValues) => {
   const newAvatarLink = inputValues['popup-new-avatar-link'];
   api.updateUserAvatar(newAvatarLink)
     .then((data) => {
-      console.log('data = ', data);
       userInfo.setUserInfo(data);
     })
     .catch((err) => {
