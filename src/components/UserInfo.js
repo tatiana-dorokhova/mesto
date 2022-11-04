@@ -24,6 +24,6 @@ export default class UserInfo {
   }) {
     this._userName.textContent = name;
     this._userDetails.textContent = about;
-    this._userAvatar.src = avatar;
+    this._userAvatar.style.backgroundImage = `url(${avatar})`;
   }
 }

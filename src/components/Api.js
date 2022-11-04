@@ -42,7 +42,7 @@ export default class Api {
 
   // редактирование профиля
   // свойство _id в ответе — это идентификатор пользователя
-  editUserProfile(newUserName, newUserAbout) {
+  editUserProfile({newUserName, newUserAbout}) {
     return fetch(`${this._baseUrl}/users/me`, {
         method: 'PATCH',
         headers: this._headers,
@@ -56,7 +56,7 @@ export default class Api {
 
   // добавление новой карточки
   // свойство _id в ответе — это идентификатор карточки
-  addNewCard(newCardName, newCardLink) {
+  addNewCard({newCardName, newCardLink}) {
     return fetch(`${this._baseUrl}/cards`, {
         method: 'POST',
         headers: this._headers,

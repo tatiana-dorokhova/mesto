@@ -34,13 +34,12 @@ export default class PopupWithForm extends Popup {
     super.close();
   }
 
-  setEventListeners(originalButtonText, buttonTextWhileSaving) {
+  setEventListeners() {
     // закрытие попапа по кнопке и оверлею без очистки формы
     super.setEventListeners();
     // закрытие попапа по нажатию на кнопку сабмита с очисткой формы
     this._popupForm.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      super.changeButtonTextOnSaving(true, originalButtonText, buttonTextWhileSaving);
       this._handleFormSubmit(this._getInputValues());
       this.close();
     })

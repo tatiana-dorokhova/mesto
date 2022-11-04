@@ -44,8 +44,8 @@ export default class Popup {
   changeButtonTextOnSaving(isSaving, originalButtonText, buttonTextWhileSaving) {
     if (isSaving) {
       this._popupSubmitButton.textContent = buttonTextWhileSaving;
+    } else {
+      this._popupSubmitButton.textContent = originalButtonText;
     }
-    this._popupSubmitButton.textContent = originalButtonText;
   }
-
 }
