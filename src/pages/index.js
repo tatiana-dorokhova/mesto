@@ -55,6 +55,7 @@ api.getUserProfile()
   })
   .catch((err) => console.log(err));
 
+
 //--------------------------------------------Карточки-----------------------
 
 // получить лист карточек с сервера и отрисовать их на странице 
@@ -68,12 +69,22 @@ api.getInitialCards()
 
 const renderCard = (card) => {
   // экземпляр карточки
-  const newCard = new Card(card, userId, '.card-template_type_default', () => {
-    popupImage.open({
-      name: card.name,
-      link: card.link
-    })
-  });
+  const newCard = new Card(
+    card,
+    userId,
+    '.card-template_type_default',
+    // обработчик клика по картинке
+    () => {
+      popupImage.open({
+        name: card.name,
+        link: card.link
+      })
+    },
+    // обработчик клика по кнопке удаления
+    (cardId, element) => {
+      popupDeleteCard.open(cardId, element);
+    }
+  );
   // создаем карточку и возвращаем наружу
   const renderedCard = newCard.generateCard();
   return renderedCard;
@@ -211,3 +222,28 @@ profileAvatarButton.addEventListener('click', () => {
   editAvatarFormValidate.toggleSubmitButtonOnOpeningPopup();
   popupEditAvatar.open();
 });
+
+
+// попап удаления карточки
+const popupDeleteCard = new PopupWithConfirmation(deleteCardPopup, (cardId, element) => {
+  // по кнопке сабмита должно происходить:
+  // замена текста кнопки на Удаление...
+  // отправка запроса на сервер с id карточки, которую нужно удалить
+  // если в ответе ок, то удалить карточку из контейнера
+  // изменение текста кнопки обратно на Да
+
+  popupDeleteCard.changeButtonTextOnSaving(true, 'Да', 'Удаление...');
+  api.deleteCard(cardId)
+    .then(() => {
+      element.remove();
+      element = null;
+      popupDeleteCard.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupDeleteCard.changeButtonTextOnSaving(false, 'Да', 'Удаление...');
+    });
+});
+popupDeleteCard.setEventListeners();
