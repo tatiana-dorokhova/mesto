@@ -22,8 +22,15 @@ export default class UserInfo {
     about,
     avatar
   }) {
-    this._userName.textContent = name;
-    this._userDetails.textContent = about;
-    this._userAvatar.style.backgroundImage = `url(${avatar})`;
+    // если значение не пришло (серверная ошибка), то останутся предыдущие значения
+    if (name) {
+      this._userName.textContent = name
+    };
+    if (about) {
+      this._userDetails.textContent = about
+    };
+    if (avatar) {
+      this._userAvatar.style.backgroundImage = `url(${avatar})`
+    };
   }
 }

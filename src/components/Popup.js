@@ -36,14 +36,4 @@ export default class Popup {
     })
   }
 
-  // метод, меняющий текст кнопки сабмита во время сохранения данных
-  // на входе: originalValue - текст кнопки до нажатия
-  //           valueWhileSaving - текст кнопки во время сохранения
-  changeButtonTextOnSaving(isSaving, originalButtonText, buttonTextWhileSaving) {
-    if (isSaving) {
-      this._popupSubmitButton.textContent = buttonTextWhileSaving;
-    } else {
-      this._popupSubmitButton.textContent = originalButtonText;
-    }
-  }
 }

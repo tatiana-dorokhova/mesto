@@ -56,25 +56,11 @@ Promise.all(promises)
     userInfo.setUserInfo(userProfileResponse);
     cardsList.renderItems(initialCardsResponse);
   })
-
-
-// // получить данные с сервера и заполнить ими нужные поля
-// api.getUserProfile()
-//   .then((res) => {
-//     userId = res._id;
-//     userInfo.setUserInfo(res);
-//   })
-//   .catch((err) => console.log(err));
-
-
-// получить лист карточек с сервера и отрисовать их на странице 
-// в каждой карточке приходят name, link, _id карточки
-// api.getInitialCards()
-//   .then((initialCards) => {
-//     // для каждого элемента листа сформировать и отрисовать карточку
-//     cardsList.renderItems(initialCards);
-//   })
-//   .catch(err => console.log(err));
+  // если какой-то из промисов завершился с ошибкой, то результатом Promise.all 
+  // будет эта ошибка; при этом остальные промисы игнорируются
+  .catch((err) => {
+    console.log(err);
+  });
 
 
 //--------------------------------------------Карточки-----------------------
@@ -105,6 +91,9 @@ const renderCard = (card) => {
           .then((data) => {
             newCard.handlePressLikeButton(data);
           })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       // и наоборот
       else {
@@ -112,6 +101,9 @@ const renderCard = (card) => {
           .then((data) => {
             newCard.handlePressLikeButton(data);
           })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
   );
@@ -123,7 +115,7 @@ const renderCard = (card) => {
 const cardsList = new Section({
     renderer: (item) => {
       const cardElement = renderCard(item);
-      cardsList.addItem(cardElement);
+      cardsList.addInitialItem(cardElement);
     },
   },
   cardListContainer
@@ -158,6 +150,7 @@ const popupEditProfile = new PopupWithForm(profilePopup, (inputValues) => {
   api.editUserProfile(newUserInfo)
     .then((data) => {
       userInfo.setUserInfo(data);
+      popupEditProfile.close();
     })
     .catch((err) => {
       console.log(err);
@@ -178,6 +171,8 @@ profileEditButton.addEventListener('click', () => {
   popupEditProfile.setInputValues(profileValuesToSetInForm);
   // активировать кнопку сабмита, т.к. поля заполнены
   editProfileFormValidate.toggleSubmitButtonOnOpeningPopup();
+  // скрыть ошибки валидации
+  editProfileFormValidate.hideInputErrorOnOpeningPopup();
   // открыть попап
   popupEditProfile.open();
 });
@@ -201,6 +196,7 @@ const popupNewCard = new PopupWithForm(newCardPopup, (inputValues) => {
     .then((data) => {
       const element = renderCard(data);
       cardsList.addItem(element);
+      popupNewCard.close();
     })
     .catch((err) => {
       console.log(err);
@@ -215,6 +211,8 @@ popupNewCard.setEventListeners();
 addCardButton.addEventListener('click', () => {
   // деактивировать кнопку сабмита, если инпуты пустые
   newCardFormValidate.toggleSubmitButtonOnOpeningPopup();
+  // скрыть ошибки валидации
+  newCardFormValidate.hideInputErrorOnOpeningPopup();
   popupNewCard.open();
 });
 
@@ -236,6 +234,7 @@ const popupEditAvatar = new PopupWithForm(editAvatarPopup, (inputValues) => {
   api.updateUserAvatar(newAvatarLink)
     .then((data) => {
       userInfo.setUserInfo(data);
+      popupEditAvatar.close();
     })
     .catch((err) => {
       console.log(err);
@@ -250,6 +249,8 @@ popupEditAvatar.setEventListeners();
 profileAvatarButton.addEventListener('click', () => {
   // деактивировать кнопку сабмита, если инпуты пустые
   editAvatarFormValidate.toggleSubmitButtonOnOpeningPopup();
+  // скрыть ошибки валидации
+  editAvatarFormValidate.hideInputErrorOnOpeningPopup();
   popupEditAvatar.open();
 });
 
@@ -257,12 +258,9 @@ profileAvatarButton.addEventListener('click', () => {
 // попап удаления карточки
 const popupDeleteCard = new PopupWithConfirmation(deleteCardPopup, (cardId, element) => {
   // по кнопке сабмита должно происходить:
-  // замена текста кнопки на Удаление...
   // отправка запроса на сервер с id карточки, которую нужно удалить
   // если в ответе ок, то удалить карточку из контейнера
-  // изменение текста кнопки обратно на Да
 
-  popupDeleteCard.changeButtonTextOnSaving(true, 'Да', 'Удаление...');
   api.deleteCard(cardId)
     .then(() => {
       element.remove();
@@ -272,8 +270,6 @@ const popupDeleteCard = new PopupWithConfirmation(deleteCardPopup, (cardId, elem
     .catch((err) => {
       console.log(err);
     })
-    .finally(() => {
-      popupDeleteCard.changeButtonTextOnSaving(false, 'Да', 'Удаление...');
-    });
+    .finally(() => {});
 });
 popupDeleteCard.setEventListeners();

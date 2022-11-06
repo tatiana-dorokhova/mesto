@@ -24,7 +24,7 @@ export default class PopupWithForm extends Popup {
   setInputValues(data) {
     this._popupFormInputs.forEach((input) => {
       // тут вставляем в `value` инпута данные из объекта по атрибуту `name` этого инпута
-        input.value = data[input.name];
+      input.value = data[input.name];
     });
   }
 
@@ -41,7 +41,19 @@ export default class PopupWithForm extends Popup {
     this._popupForm.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._handleFormSubmit(this._getInputValues());
-      this.close();
+      // попап не должен закрываться, если возникнет ошибка в ответе от сервера, 
+      // поэтому функционал закрытия уходит в блок then соответствующей цепочки промиcов
     })
+  }
+
+  // метод, меняющий текст кнопки сабмита во время сохранения данных
+  // на входе: originalValue - текст кнопки до нажатия
+  //           valueWhileSaving - текст кнопки во время сохранения
+  changeButtonTextOnSaving(isSaving, originalButtonText, buttonTextWhileSaving) {
+    if (isSaving) {
+      this._popupSubmitButton.textContent = buttonTextWhileSaving;
+    } else {
+      this._popupSubmitButton.textContent = originalButtonText;
+    }
   }
 }
