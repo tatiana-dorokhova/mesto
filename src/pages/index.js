@@ -47,33 +47,74 @@ const userInfo = new UserInfo({
   userAvatar: profileAvatar
 });
 
-// получить данные с сервера и заполнить ими нужные поля
-api.getUserProfile()
-  .then((res) => {
-    userId = res._id;
-    userInfo.setUserInfo(res);
-  })
-  .catch((err) => console.log(err));
 
-//--------------------------------------------Карточки-----------------------
+// карточки должны отображаться на странице только после получения id пользователя
+const promises = [api.getUserProfile(), api.getInitialCards()];
+Promise.all(promises)
+  .then(([userProfileResponse, initialCardsResponse]) => {
+    userId = userProfileResponse._id;
+    userInfo.setUserInfo(userProfileResponse);
+    cardsList.renderItems(initialCardsResponse);
+  })
+
+
+// // получить данные с сервера и заполнить ими нужные поля
+// api.getUserProfile()
+//   .then((res) => {
+//     userId = res._id;
+//     userInfo.setUserInfo(res);
+//   })
+//   .catch((err) => console.log(err));
+
 
 // получить лист карточек с сервера и отрисовать их на странице 
 // в каждой карточке приходят name, link, _id карточки
-api.getInitialCards()
-  .then((initialCards) => {
-    // для каждого элемента листа сформировать и отрисовать карточку
-    cardsList.renderItems(initialCards);
-  })
-  .catch(err => console.log(err));
+// api.getInitialCards()
+//   .then((initialCards) => {
+//     // для каждого элемента листа сформировать и отрисовать карточку
+//     cardsList.renderItems(initialCards);
+//   })
+//   .catch(err => console.log(err));
 
+
+//--------------------------------------------Карточки-----------------------
 const renderCard = (card) => {
   // экземпляр карточки
-  const newCard = new Card(card, userId, '.card-template_type_default', () => {
-    popupImage.open({
-      name: card.name,
-      link: card.link
-    })
-  });
+  const newCard = new Card(
+    card,
+    userId,
+    '.card-template_type_default',
+    // обработчик клика по картинке
+    () => {
+      popupImage.open({
+        name: card.name,
+        link: card.link
+      })
+    },
+    // обработчик клика по кнопке удаления
+    (cardId, element) => {
+      popupDeleteCard.open(cardId, element);
+    },
+    // обработчик клика по кнопке лайка
+    (card) => {
+      // console.log('card = ', card);
+      console.log('newCard.isLikedByUser = ', newCard.isLikedByUser());
+      // если карточка до этого не была лайкнута, значит, нужно вызвать likeCard
+      if (newCard.isLikedByUser()) {
+        api.unlikeCard(card._id)
+          .then((data) => {
+            newCard.handlePressLikeButton(data);
+          })
+      }
+      // и наоборот
+      else {
+        api.likeCard(card._id)
+          .then((data) => {
+            newCard.handlePressLikeButton(data);
+          })
+      }
+    }
+  );
   // создаем карточку и возвращаем наружу
   const renderedCard = newCard.generateCard();
   return renderedCard;
@@ -211,3 +252,28 @@ profileAvatarButton.addEventListener('click', () => {
   editAvatarFormValidate.toggleSubmitButtonOnOpeningPopup();
   popupEditAvatar.open();
 });
+
+
+// попап удаления карточки
+const popupDeleteCard = new PopupWithConfirmation(deleteCardPopup, (cardId, element) => {
+  // по кнопке сабмита должно происходить:
+  // замена текста кнопки на Удаление...
+  // отправка запроса на сервер с id карточки, которую нужно удалить
+  // если в ответе ок, то удалить карточку из контейнера
+  // изменение текста кнопки обратно на Да
+
+  popupDeleteCard.changeButtonTextOnSaving(true, 'Да', 'Удаление...');
+  api.deleteCard(cardId)
+    .then(() => {
+      element.remove();
+      element = null;
+      popupDeleteCard.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupDeleteCard.changeButtonTextOnSaving(false, 'Да', 'Удаление...');
+    });
+});
+popupDeleteCard.setEventListeners();

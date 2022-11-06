@@ -3,8 +3,6 @@ export default class Popup {
     this._popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._popupSubmitButton = this._popup.querySelector('.popup__submit-button');
-
-    // 
   }
 
   // публичный метод, открывающий попап
