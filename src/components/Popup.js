@@ -2,7 +2,7 @@ export default class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
-    // 
+    this._popupSubmitButton = this._popup.querySelector('.popup__submit-button');
   }
 
   // публичный метод, открывающий попап
@@ -34,5 +34,16 @@ export default class Popup {
         this.close();
       }
     })
+  }
+
+  // метод, меняющий текст кнопки сабмита во время сохранения данных
+  // на входе: originalValue - текст кнопки до нажатия
+  //           valueWhileSaving - текст кнопки во время сохранения
+  changeButtonTextOnSaving(isSaving, originalButtonText, buttonTextWhileSaving) {
+    if (isSaving) {
+      this._popupSubmitButton.textContent = buttonTextWhileSaving;
+    } else {
+      this._popupSubmitButton.textContent = originalButtonText;
+    }
   }
 }

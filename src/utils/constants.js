@@ -1,37 +1,13 @@
-// карточки по умолчанию при загрузке страницы
-export const initialCards = [{
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-// список карточек
-export const cardList = '.elements';
+// контейнер для вставки карточек
+export const cardListContainer = '.elements';
 
 // селекторы профиля
 export const profileEditButton = document.querySelector('.profile__edit-button');
 export const profileName = '.profile__name';
 export const profileText = '.profile__text';
+export const profileAvatar = '.profile__avatar';
+export const profileAvatarButton = document.querySelector(profileAvatar);
+
 
 // селекторы карточки
 export const addCardButton = document.querySelector('.profile__add-button');
@@ -42,6 +18,8 @@ export const popups = document.querySelectorAll('.popup');
 export const profilePopup = '.popup.popup-edit';
 export const newCardPopup = '.popup.popup-add';
 export const imagePopup = '.popup.popup-image';
+export const editAvatarPopup = '.popup.popup-edit-avatar';
+export const deleteCardPopup = '.popup.popup-delete-card';
 
 // селекторы картинки и подписи открытого попапа с картинкой
 export const popupImage = '.popup__image';
@@ -57,6 +35,10 @@ export const newCardForm = document.querySelector('form[name=new-card-form]');
 export const newCardNameInput = document.querySelector("input[name=popup-new-card-name]");
 export const newCardLinkInput = document.querySelector("input[name=popup-new-card-link]");
 
+// форма изменения аватарки
+export const editAvatarForm = document.querySelector('form[name=edit-avatar-form]');
+export const editAvatarFormInput = document.querySelector("input[name=popup-new-avatar-link]");
+
 // список селекторов для вызова валидации
 export const formSettings = {
   formSelector: '.popup__form', // сама форма
@@ -66,3 +48,11 @@ export const formSettings = {
   inputErrorClass: 'popup__input_type_error', // класс типа ошибки для любого инпута на форме
   errorClass: 'popup__error_visible' // класс видимой ошибки
 };
+
+export const apiConfig = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-52',
+  headers: {
+    authorization: '2dd148fa-cdec-4e91-b47f-aa7d67bc876a',
+    'Content-Type': 'application/json'
+  }
+}
