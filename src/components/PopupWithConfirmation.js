@@ -11,11 +11,9 @@ export default class PopupWithConfirmation extends Popup {
 
   open(cardId, element) {
     super.open();
-    // листнер на нажатие кнопки сабмита
+    // листнер на нажатие кнопки подтверждения удаления
     this._popupSubmitButton.addEventListener('click', (evt) => {
-        evt.preventDefault();
-        this._handleSubmitButton(cardId, element);
-      });
+      this._handleSubmitButton(cardId, element);
+    });
   }
-
 }
